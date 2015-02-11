@@ -1,5 +1,5 @@
 {
-  "name": "midi2funk",
+  "name": "piano.roll",
   "version": "1.0.0",
   "description": "Simple midi to javascript ( actually [coffee-script](http://coffeescript.org/) ) function mapper.",
   "main": "index.js",
@@ -17,12 +17,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/hems/midi2funk.git"
+    "url": "https://github.com/coderextreme/piano.roll.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hems/midi2funk/issues"
+    "url": "https://github.com/coderextreme/piano.roll/issues"
   },
-  "homepage": "https://github.com/hems/midi2funk"
+  "homepage": "https://github.com/coderextreme/piano.roll"
 }
