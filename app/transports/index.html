@@ -26,7 +26,7 @@
  <script language="Javascript" src="http://cdn.socket.io/socket.io-1.2.1.js"></script>
 </head>
 <body>
-<div style="position: absolute; top: 0; left: 0; z-index: 4; border-radius: 5px;" id="colors"></div><div style="text-align: center; border-radius: 5px; position: absolute; top: -70px; left: -40px; opacity: 0.9" id="colors"></div>
+<div style="position: absolute; top: 0; left: 0; z-index: 4; border-radius: 5px;" id="colors"></div><!--div style="text-align: center; border-radius: 5px; position: absolute; top: -70px; left: -40px; opacity: 0.9" id="colors"></div-->
 <div style="border: 1px solid #000; background: rgba(255,255,255,0.5); border-radius: 10px; float: left; width: 800px; position: relative; z-index: 2;">
  <div class="player"  style="height: 42px; box-shadow: 0 -1px #000; margin-bottom: 0;">
   <div style="margin: 0 auto; width: 160px; float: right;">
@@ -104,43 +104,60 @@ instrument.onchange = function() {
 	MIDI.programChange(0, code);
 };
 
-var colorElements = [];
+var notes = [];
 var now;
+var playingNotes = {};
 var start;
-	var socket = io.connect('http://localhost:1337');
-	socket.on('message', function(data) {
-	    console.log(data);
-	    message = data.message;
-	    deltaTime = data.deltaTime;
-	    type = message[0];
-	    note = message[1];
-	    value = message[2];
-//	});
-// eventjs.add(window, "keydown", function(event) {
+var socket = io.connect('http://localhost:1337');
+function PlayingNote() {
+}
+PlayingNote.prototype.start = function(note) {
+	this['notestart'] = (now-start)*64/1000;
+	var xpx = this.element.style.left = this['notestart'] + "px";
+	this.element.style.padding = "0px 0px 0px 0px";
+	this.element.style.margin = "0";
+	this.element.innerHTML = "";
+	this.note = note;
+	this.velocity = 127;
+	MIDI.noteOn(0, this.note, this.velocity, -1);
+	document.getElementById("colors").appendChild(this.element);
+	this.element['data-note'] = this;
+};
+PlayingNote.prototype.stop = function(delay) {
+	// stop the note
+	var wpx = (delay*64);
+	this.element.style.width = wpx+"px";
+	MIDI.noteOff(0, this.note, this.delay);
+};
+PlayingNote.prototype.extend = function(now) {
+	var timein = (now-start)*64/1000;
+	this.element.style.width = (timein - this['notestart'])+"px"
+};
+socket.on('message', function(data) {
+	console.log(data);
+	message = data.message;
+	deltaTime = data.deltaTime;
+	type = message[0];
+	note = message[1];
+	value = message[2];
 	if (!start) {
 		start = new Date().getTime();
 	}
-//	note = event.keyCode - 11;
-	if (type == 128) {
-		var pianoKey = note - MIDI.pianoKeyOffset;
-		var d = colorElements[pianoKey];
+	var pianoKey = note - MIDI.pianoKeyOffset;
+	var delay = deltaTime;
+	if (type == 144) {
+		var d = notes[pianoKey];
 		var map = colorMap[note - 27];
-		var newnote = d.cloneNode(true);
-		if (map) newnote.style.background = map.hex;
-		newnote['data-note-start'] = (now-start)*64/1000;
-		var xpx = newnote.style.left = newnote['data-note-start'] + "px";
-		newnote.style.padding = "0px 0px 0px 0px";
-		newnote.style.margin = "0";
-		newnote.innerHTML = "";
-		var notecursor = document.getElementById("notecursor");
-		var delay = deltaTime;
-		newnote.style.width = (delay*64)+"px";
-		notecursor.style.left = xpx+(delay*64)+"px";
+		var newnote = new PlayingNote();
+		newnote.element = d.cloneNode(true);
+		if (map) newnote.element.style.background = map.hex;
+		playingNotes[note] = newnote;
+		newnote.start(note);
+	} else if (type == 128) {
 		var note = MIDI.pianoKeyOffset + pianoKey; // the MIDI note
-		var velocity = 127; // how hard the note hits
-		// play the note
-		MIDI.noteOn(0, note, velocity, delay);
-		document.getElementById("colors").appendChild(newnote);
+		playingNotes[note].stop(delay);
+
+		delete playingNotes[note];
 	}
 });
 
@@ -156,14 +173,22 @@ function deleteNotes() {
 setInterval(function() {
 	now = new Date().getTime();
 	var timein = (now-start)*64/1000;
+	var notecursor = document.getElementById("notecursor");
 	if (timein > 640) { // ten seconds
 		var colors = document.getElementById("colors");
 		var nodes = colors.children;
 		var i;
 		for (i = 89; i < nodes.length; i++) {
-			var notestart = nodes[i]['data-note-start'];
+			var notestart = nodes[i]['data-note']['notestart'];
 			nodes[i].style.left = (notestart-timein+640)+"px";
 		};
+		notecursor.style.left = 640+"px";
+	} else {
+		notecursor.style.left = timein+"px";
+	}
+	var n;
+	for (n in playingNotes) {
+		playingNotes[n].extend(now);
 	}
 }, 1000/64);
 
@@ -185,7 +210,7 @@ eventjs.add(window, "load", function(event) {
 		d.innerHTML = MIDI.noteToKey[n+21];
 		d.style.top = n*11+"px";
 		d.style.position = "absolute";
-		colorElements.push(d);
+		notes.push(d);
 		colors.appendChild(d);
 	}
 	var notecursor = document.createElement("div");
@@ -218,7 +243,7 @@ eventjs.add(window, "load", function(event) {
 			player.addListener(function(data) {
 				now = data.now;
 				var pianoKey = data.note - MIDI.pianoKeyOffset;
-				var d = colorElements[pianoKey];
+				var d = notes[pianoKey];
 				if (data.message === 144) {
 					var map = colorMap[data.note - 27];
 					if (map) d.style.background = map.hex;
