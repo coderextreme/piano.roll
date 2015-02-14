@@ -27,7 +27,7 @@
 </head>
 <body>
 
-<div style="position: absolute; top: 0; left: 0; z-index: 4; border-radius: 5px;" id="colors"></div><div id="notecursor" style="top:0px; width:1px; left:10px; position:absolute; padding:0px 0px 0px 0px; margin:0; background:#000;"></div><div id="playedNotes" style="position: absolute; top: 0; left: 0; z-index: 4;" ></div><!--div style="text-align: center; border-radius: 5px; position: absolute; top: -70px; left: -40px; opacity: 0.9" id="colors"></div-->
+<div style="position: absolute; top: 0; left: 0; z-index: 4; border-radius: 5px;" id="colors"></div><div id="notecursor" style="top:0px; width:1px; left:10px; position:absolute; padding:0px 0px 0px 0px; z-index:5; margin:0; background:#000;"></div><div id="playedNotes" style="position: absolute; top: 0; left: 0; z-index: 4;" ></div><!--div style="text-align: center; border-radius: 5px; position: absolute; top: -70px; left: -40px; opacity: 0.9" id="colors"></div-->
 <div style="border: 1px solid #000; background: rgba(255,255,255,0.5); border-radius: 10px; float: left; width: 800px; position: relative; z-index: 2;">
  <div class="player"  style="height: 42px; box-shadow: 0 -1px #000; margin-bottom: 0;">
   <div style="margin: 0 auto; width: 160px; float: right;">
@@ -216,7 +216,7 @@ eventjs.add(window, "load", function(event) {
 		notes.push(d);
 		colors.appendChild(d);
 	}
-	var notecursor = document.createElement("div");
+	var notecursor = document.getElementById("notecursor");
 	notecursor.style.height = 88*11+"px";
 	//
 	MIDI.loader = new widgets.Loader;
