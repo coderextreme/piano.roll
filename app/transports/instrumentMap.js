@@ -1,5 +1,6 @@
 var instruments = [
 {code:1	,instrument:	"acoustic_grand_piano"},
+/*
 {code:2	,instrument:	"bright_acoustic_piano"},
 {code:3	,instrument:	"electric_grand_piano"},
 {code:4	,instrument:	"honkytonk_piano"},
@@ -19,15 +20,16 @@ var instruments = [
 {code:18	,instrument:	"percussive_organ"},
 {code:19	,instrument:	"rock_organ"},
 {code:20	,instrument:	"church_organ"},
-/*
 {code:21	,instrument:	"reed_organ"},
 {code:22	,instrument:	"accordion"},
 {code:23	,instrument:	"harmonica"},
 {code:24	,instrument:	"tango_accordion"},
 {code:25	,instrument:	"acoustic_guitar_nylon"},
+*/
 {code:26	,instrument:	"acoustic_guitar_steel"},
 {code:27	,instrument:	"electric_guitar_jazz"},
 {code:28	,instrument:	"electric_guitar_clean"},
+/*
 {code:29	,instrument:	"electric_guitar_muted"},
 {code:30	,instrument:	"overdriven_guitar"},
 {code:31	,instrument:	"distortion_guitar"},
@@ -57,7 +59,9 @@ var instruments = [
 {code:55	,instrument:	"synth_choir"},
 {code:56	,instrument:	"orchestra_hit"},
 {code:57	,instrument:	"trumpet"},
+*/
 {code:58	,instrument:	"trombone"},
+/*
 {code:59	,instrument:	"tuba"},
 {code:60	,instrument:	"muted_trumpet"},
 {code:61	,instrument:	"french_horn"},
@@ -130,3 +134,25 @@ var instruments = [
 */
 {code:128	,instrument:	"gunshot"}
 ];
+
+var instrument = document.getElementById("instrument");
+for (var ins in instruments) {
+		var opt = instruments[ins];
+		var el = document.createElement("option");
+		el.text = opt.instrument;
+		el.val = opt.code - 1;
+		instrument.appendChild(el);
+}
+
+var insts = [];
+
+for (var ins in instruments) {
+	var opt = instruments[ins];
+	insts.push(opt.instrument);
+}
+
+instrument.onchange = function() {
+	var code = this.options[this.selectedIndex].val;
+	MIDI.programChange(0, code);
+};
+
