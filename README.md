@@ -16,7 +16,7 @@ make start
 or
 
 ````
-./node_modules/.bin/coffee app/start.cofee
+./node_modules/.bin/coffee app/start.coffee
 ````
 ## how to use it
 
