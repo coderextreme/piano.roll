@@ -4,13 +4,13 @@
   "description": "Simple midi to javascript ( actually [coffee-script](http://coffeescript.org/) ) function mapper.",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.16.4",
-    "inquirer": "^6.2.1",
-    "midi": "^0.9.0",
-    "socket.io": "^2.4.0"
+    "express": "*",
+    "inquirer": "*",
+    "midi": "*",
+    "socket.io": "*"
   },
   "devDependencies": {
-    "coffee-script": "^1.8.0"
+    "coffee-script": "*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
