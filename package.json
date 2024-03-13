@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Simple midi to javascript ( actually [coffee-script](http://coffeescript.org/) ) function mapper.",
   "main": "index.js",
+  "type": "module",
   "dependencies": {
     "express": "*",
     "inquirer": "*",
@@ -10,7 +11,7 @@
     "socket.io": "*"
   },
   "devDependencies": {
-    "coffee-script": "*"
+    "coffeescript": "*"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

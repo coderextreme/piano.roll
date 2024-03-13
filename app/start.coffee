@@ -1,9 +1,6 @@
-midi     = require 'midi'
-
-inquirer = require "inquirer"
-
-# requiring our default transport, so the socket server gets initiated
-emit = require './transports/socket-io'
+import * as midi from 'midi'
+import * as inquirer from 'inquirer'
+import * as emit from './transports/socket-io'
 
 # Set up a new input.
 input = new midi.input()
