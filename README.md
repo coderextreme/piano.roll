@@ -16,7 +16,7 @@ make start
 or
 
 ````
-./node_modules/.bin/coffee app/start.coffee
+node app/start.mjs
 ````
 ## how to use it
 
@@ -26,9 +26,6 @@ visit http://localhost:1337
  * [midi2funk](https://github.com/hems/midi2funk)
  ~ for connection between MIDI and socket.io server
  
-
- * [coffee-script](http://coffeescript.org/)  
- ~ It gives me nightmares just to think how life could be without you
 
  * [node-midi](https://github.com/justinlatimer/node-midi)  
  ~ without you this wouldn't be possible wire this all in less than 10 minutes 
