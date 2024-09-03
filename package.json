@@ -1,17 +1,13 @@
 {
   "name": "piano.roll",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Simple midi to javascript ( actually [coffee-script](http://coffeescript.org/) ) function mapper.",
-  "main": "index.js",
-  "type": "module",
+  "main": "app/start.js",
   "dependencies": {
-    "express": "*",
-    "inquirer": "*",
-    "midi": "*",
-    "socket.io": "*"
-  },
-  "devDependencies": {
-    "coffeescript": "*"
+    "express": "^4.19.2",
+    "inquirer": "^10.2.0",
+    "midi": "^2.0.0",
+    "socket.io": "^4.7.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

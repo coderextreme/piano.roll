@@ -1,2 +1,2 @@
 start:
-	./node_modules/.bin/coffee app/start.coffee
+	node app/start.mjs
