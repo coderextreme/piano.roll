@@ -8,7 +8,7 @@
     "inquirer": "*",
     "midi": "^*",
     "socket.io": "*",
-    "debug": "4.4.1"
+    "debug": "4.4.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
