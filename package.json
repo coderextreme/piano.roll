@@ -6,7 +6,7 @@
   "dependencies": {
     "express": "*",
     "inquirer": "*",
-    "midi": "^*",
+    "midi": "*",
     "socket.io": "*",
     "debug": "4.4.3"
   },
